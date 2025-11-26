@@ -1,38 +1,148 @@
-.App {
-  text-align: center;
+.App{
+  min-height:100vh;
+  background: radial-gradient(1200px 600px at 10% 10%, rgba(122,211,255,0.06), transparent 10%),
+              radial-gradient(900px 400px at 90% 90%, rgba(0,230,168,0.03), transparent 8%),
+              linear-gradient(180deg,#08121a 0%, #031018 100%);
+  color:#e6f7ff;
+  font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 }
 
-.App-logo {
-  height: 40vmin;
+.App-header{
+  padding:18px 0;
+  border-bottom:4px solid rgba(255,255,255,0.04);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.6), inset 0 -6px 24px rgba(0,0,0,0.4);
+  background: linear-gradient(90deg, rgba(10,30,40,0.4), rgba(8,18,26,0.2));
+}
+
+.App-header h1{
+  margin:0;
+  font-size:1.8rem;
+  letter-spacing:2px;
+  color:#7ad3ff;
+  text-shadow: 0 2px 0 rgba(0,0,0,0.6), 0 0 10px rgba(122,211,255,0.12);
+}
+
+/* Apply pixel font globally for headings */
+body, .App, .App * {
+  font-family: 'Press Start 2P', 'Segoe UI', Roboto, Arial, sans-serif;
+}
+
+.container{
+  display:flex;
+  gap:20px;
+  padding:28px;
+  max-width:1200px;
+  margin:0 auto;
+  align-items:flex-start;
+}
+
+.left{flex:1 1 340px}
+.right{flex:2 1 760px}
+
+.card{
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  padding:14px;
+  border-radius:10px;
+  border:2px solid rgba(255,255,255,0.03);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.6), 0 0 18px rgba(10,140,180,0.04) inset;
+}
+
+.form-field{margin-bottom:12px;text-align:left}
+.form-field label{display:block;font-weight:700;margin-bottom:6px;color:#9ccad9}
+.form-field input,.form-field select,.form-field textarea{width:100%;padding:10px;border:2px solid rgba(255,255,255,0.04);border-radius:6px;background:rgba(255,255,255,0.02);color:#e6f7ff}
+
+.btn{
+  background: linear-gradient(180deg, #1fb4c6, #0b6b8f);
+  color:#e6f7ff;
+  padding:10px 14px;border:none;border-radius:6px;cursor:pointer;
+  box-shadow: 0 6px 0 rgba(0,0,0,0.6), inset 0 -6px 12px rgba(255,255,255,0.03);
+  transition: transform 120ms ease, box-shadow 120ms ease;
+  font-weight:700;
+}
+.btn:active{transform: translateY(3px); box-shadow: 0 3px 0 rgba(0,0,0,0.6)}
+.btn.primary{background: linear-gradient(180deg,#00e6a8, #06b58f)}
+.btn.danger{background: linear-gradient(180deg,#ff6b6b,#d32f2f)}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:18px}
+.pokemon-card{
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.04));
+  border-radius:8px;padding:12px;text-align:left;
+  box-shadow: 0 18px 30px rgba(0,0,0,0.6), 0 0 12px rgba(0,0,0,0.4) inset;
+  border:3px solid rgba(255,255,255,0.02);
+  position:relative;overflow:hidden;
+}
+.pokemon-card.selected{
+  box-shadow: 0 18px 40px rgba(0,255,200,0.12), 0 0 30px rgba(122,211,255,0.06) inset;
+  transform: translateY(-6px);
+  transition: transform 180ms ease, box-shadow 220ms ease;
+}
+.pokemon-card::after{
+  content:'';position:absolute;left:0;right:0;top:0;height:36px;background:linear-gradient(90deg, rgba(0,0,0,0.06), rgba(255,255,255,0.02));pointer-events:none;
+}
+.pokemon-card img{width:100%;height:160px;object-fit:cover;border-radius:6px;border:3px solid rgba(0,0,0,0.35)}
+.pokemon-card h3{margin:8px 0 4px;color:#7ad3ff;text-shadow:0 2px 0 rgba(0,0,0,0.6)}
+.pokemon-meta{font-size:0.9rem;color:#9ccad9}
+
+.pokemon-card-editor{max-width:360px;margin:0 auto}
+.pokemon-card-static{border-radius:10px}
+
+.carousel-viewport{overflow:hidden}
+.carousel-track{display:flex;transition:transform 600ms cubic-bezier(.2,.8,.25,1)}
+
+/* Continuous scroll animation for carousel: duplicated items move left seamlessly */
+.carousel-track.continuous{
+  display:flex;
+  align-items:stretch;
+  /* animation set inline for duration to scale with items */
+  animation-name: scroll-left;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+@keyframes scroll-left{
+  0%{transform: translateX(0)}
+  100%{transform: translateX(-50%)}
+}
+
+/* Pause on hover / touch active to help user click cards */
+.carousel-viewport:hover .carousel-track.continuous,
+.carousel-track.continuous:hover,
+.carousel-viewport:active .carousel-track.continuous,
+.carousel-track.continuous:active {
+  animation-play-state: paused;
+}
+
+/* Make it easier to grab on desktop */
+.carousel-viewport{cursor:grab}
+.carousel-viewport:active{cursor:grabbing}
+
+@media(max-width:800px){
+  .container{flex-direction:column;padding:16px}
+  .pokemon-card img{height:140px}
+}
+
+.pixel-frame{box-shadow: 0 0 0 4px rgba(0,0,0,0.6), 4px 4px 0 rgba(0,0,0,0.15)}
+
+.muted{color:#9ccad9}
+
+/* scanlines overlay for retro effect */
+.scanlines::before{
+  content: '';
+  position: absolute;
+  inset: 0;
   pointer-events: none;
+  background-image: repeating-linear-gradient(180deg, rgba(0,0,0,0.03) 0 1px, transparent 1px 4px);
+  mix-blend-mode: overlay;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+/* subtle button glow on hover */
+.btn:hover{box-shadow: 0 8px 28px rgba(0,200,150,0.12), 0 0 18px rgba(122,211,255,0.06)}
+
+/* small sprite-like pulse when selecting */
+.poke-pulse{animation: pokePulse 900ms ease-in-out}
+@keyframes pokePulse{
+  0%{transform:scale(1)}
+  50%{transform:scale(1.04)}
+  100%{transform:scale(1)}
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}

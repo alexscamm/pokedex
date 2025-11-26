@@ -1,0 +1,11 @@
+# Redirect all requests to index.html (SPA) while allowing real files and the PHP backend
+RewriteEngine On
+RewriteBase /
+
+# If the request is for an existing file or directory, serve it
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Otherwise rewrite to index.html (React SPA)
+RewriteRule ^ index.html [L]
